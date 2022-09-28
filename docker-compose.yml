@@ -1,30 +1,26 @@
 version: '3'
-
+# create docker network
 networks:
-  ros:
+  ros2:
     driver: bridge
 
 services:
   talker:
-    image: ros:ros-tutorials
-    depends_on:
-      - ros-master
-    hostname: talker
+    image: osrf/ros:foxy-desktop
+    container_name: talker
     environment:
-      - "ROS_MASTER_URI=http://ros-master:11311"
-    command: rosrun roscpp_tutorials talker       
+      - ROS_DOMAIN_ID=1
+    command: ros2 run demo_nodes_cpp talker
     networks:
-      - ros
+      - ros2
     restart: always
 
   listener:
-    image: ros:ros-tutorials
-    depends_on:
-      - ros-master
-    hostname: listener
+    image: osrf/ros:foxy-desktop
+    container_name: listener
     environment:
-      - "ROS_MASTER_URI=http://ros-master:11311"
-    command: rosrun roscpp_tutorials listener
+      - ROS_DOMAIN_ID=1
+    command: ros2 run demo_nodes_cpp listener
     networks:
-      - ros
+      - ros2
     restart: always
